@@ -21,13 +21,12 @@ Here is a TypeScript example:
 ```js
 import {PresentationClient} from "nativescript-ichi-presentation";
 
-
+// data for show
 var order = {
     items: [],
     coupons: [],        
     finalFee: 0.0,
 }
-
 var orderItem = {
     name: "product",
     qty: 2,
@@ -38,12 +37,10 @@ var orderItem2 = {
     qty: 3,
     fee: 45,
 }
-
 var couponItem = {
     name: "coupon",
     fee: 5,
 }
-
 order.items.push(orderItem);
 order.items.push(orderItem2);
 order.coupons.push(couponItem);
@@ -65,6 +62,9 @@ if (client.generate())
 
     // videoPath
     // client.setVideo(videoPath);
+
+    // close Presentation when Exit APP
+    // client.closePresentation(videoPath);
 }
 else
 {
