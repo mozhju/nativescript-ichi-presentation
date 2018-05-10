@@ -68,7 +68,7 @@ if (client.generate())
 }
 else
 {
-    console.log("PresentationClient generate failed: ", data);
+    console.log("PresentationClient generate failed");
 };
 
 
