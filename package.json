@@ -1,0 +1,42 @@
+{
+  "name": "nativescript-ichi-presentation",
+  "version": "0.1.0",
+  "description": "Presentation for NativeScript",
+  "keywords": [
+    "Presentation",
+    "nativescript",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozhju/nativescript-ichi-presentation.git"
+  },
+  "author": {
+    "name": "mozhju"
+  },
+  "bugs": {
+      "url": "https://github.com/mozhju/nativescript-ichi-presentation/issues"
+  },
+  "license": {
+      "type": "MIT",
+      "url": "https://github.com/mozhju/nativescript-ichi-presentation/blob/master/LICENSE"
+  },
+  "homepage": "https://github.com/mozhju/nativescript-ichi-presentation",
+  "readmeFilename": "README.md",
+  "main": "index",
+  "typyings": "index.d.ts",
+  "scripts": {
+    "prepublish": "tsc"
+  },
+  "nativescript": {
+    "platforms": {
+      "android": "2.4.0"
+    }
+  },
+  "devDependencies": {
+    "typescript": "^2.2.1"
+  },
+  "dependencies": {
+
+  }
+}
