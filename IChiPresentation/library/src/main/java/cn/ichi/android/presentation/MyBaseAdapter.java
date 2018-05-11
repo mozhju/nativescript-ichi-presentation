@@ -1,17 +1,13 @@
-package cn.ichi.android;
+package cn.ichi.android.presentation;
 
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by mozj on 2018/5/9.

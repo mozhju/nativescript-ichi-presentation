@@ -1,4 +1,4 @@
-package cn.ichi.android;
+package cn.ichi.android.presentation;
 
 import android.app.Activity;
 import android.app.Application;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class Utils {
 
-//    private static String TAG = "Utils";
+    private static String TAG = "Utils";
 
     /**
      *
@@ -34,8 +34,7 @@ public class Utils {
             }
             return BitmapFactory.decodeFile(filePath);
         } catch (Exception e) {
-//            Log.e(TAG, "read Image Exception: " + e.getMessage(), e);
-            e.printStackTrace();
+            Log.e(TAG, "read Image Exception: " + e.getMessage());
         }
         return null;
     }
@@ -53,8 +52,7 @@ public class Utils {
 
                 m_Application = (Application) getApplication.invoke(activityThread);
             } catch (Exception e) {
-//                Log.e(TAG, "read Image Exception: " + e.getMessage(), e);
-                e.printStackTrace();
+                Log.e(TAG, "read Image Exception: " + e.getMessage());
             }
         }
 
@@ -81,8 +79,7 @@ public class Utils {
                 }
             }
         } catch (Exception e) {
-//            Log.e(TAG, "read Image Exception: " + e.getMessage(), e);
-            e.printStackTrace();
+            Log.e(TAG, "read Image Exception: " + e.getMessage());
         }
         return null;
     }

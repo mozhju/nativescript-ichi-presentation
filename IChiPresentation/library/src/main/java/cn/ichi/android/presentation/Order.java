@@ -1,4 +1,4 @@
-package cn.ichi.android;
+package cn.ichi.android.presentation;
 
 import java.util.ArrayList;
 

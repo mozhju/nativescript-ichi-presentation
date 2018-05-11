@@ -2,52 +2,65 @@
 declare module cn {
     export module ichi {
         export module android {
-            export class Order {
-                constructor();
-                public items: Array<OrderItem>;
-                public coupons: Array<OrderItem>;
-                public finalFee: number;
-            }
-
-            export class OrderItem {
-                constructor();
-                public name: string;
-                public qty: number;
-                public fee: number;
-                public price: number;
-            }
-
-            export class MyPresentation {
-                constructor();
-                generate(): boolean;
-                setOrder(order: Order): void;
-                setImage(imgPath: string): void;
-                setVideo(videoPath: string): void;
-                showPresentation(): void;
-                closePresentation(): void;
+            export module presentation {
+                export class MyPresentation {
+                    constructor();
+                    generateBlack(): boolean;
+                    generate(): boolean;
+                    setOrder(jsonOrder: string): void;
+                    setImage(imgPath: string): void;
+                    setVideo(videoPath: string): void;
+                    showPresentation(): void;
+                    closePresentation(): void;
+                }
             }
         }
     }
 }
 
 
+export class Order {
+    constructor() {
+        this.items = new Array<OrderItem>();
+        this.coupons = new Array<OrderItem>();
+        this.finalFee = 0.0;
+    }
+
+    public items: Array<OrderItem>;
+    public coupons: Array<OrderItem>;
+    public finalFee: number;
+}
+
+export class OrderItem {
+    public name: string;
+    public qty?: number;
+    public fee: number;
+    public price?: number;
+}
+
 export class PresentationClient {
-    private client: cn.ichi.android.MyPresentation;
+    private client: cn.ichi.android.presentation.MyPresentation;
 
     constructor() {
         var self = this;
-        this.client = new cn.ichi.android.MyPresentation();
+        this.client = new cn.ichi.android.presentation.MyPresentation();
     }
+
+    public generateBlack(): boolean {
+        return this.client.generateBlack();
+    };
 
     public generate(): boolean {
         return this.client.generate();
     }
 
-    /**
-     * order: cn.ichi.android.Order
-     */
-    public setOrder(order): void {
-        return this.client.setOrder(order);
+    public setJsonOrder(jsonOrder: string): void {
+        return this.client.setOrder(jsonOrder);
+    }
+
+    public setOrder(order: Order): void {
+        var jsonOrder = JSON.stringify(order);
+        return this.client.setOrder(jsonOrder);
     }
 
     public setImage(imgPath: string): void {

@@ -1,4 +1,4 @@
-package cn.ichi.android;
+package cn.ichi.android.presentation;
 
 
 import android.app.Presentation;
@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import java.util.ArrayList;
 
 /**
  * Created by mozj on 2018/5/9.
@@ -54,7 +53,7 @@ public class DifferentDisplay extends Presentation {
         setContentView(R.layout.diffrentdisplay_basket);
 
         imageView = (ImageView)findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.logo);
+        imageView.setImageResource(R.drawable.ichi_logo);
 
         videoView = (VideoView)findViewById(R.id.video_player_view);
         videoView.setMediaController(null);

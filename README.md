@@ -54,6 +54,7 @@ if (client.generate())
 {
     // show Presentation
     client.showPresentation();
+
     // set data whil showed
     client.setOrder(order);
 
@@ -68,7 +69,7 @@ if (client.generate())
 }
 else
 {
-    console.log("PresentationClient generate failed");
+    console.log("Presentation Client generate failed");
 };
 
 

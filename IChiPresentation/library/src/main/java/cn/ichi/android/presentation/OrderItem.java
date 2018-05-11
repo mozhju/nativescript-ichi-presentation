@@ -1,4 +1,4 @@
-package cn.ichi.android;
+package cn.ichi.android.presentation;
 
 /**
  * Created by mozj on 2018/5/9.
