@@ -1,6 +1,6 @@
 
 
-export class Order {
+export declare class Order {
     constructor();
 
     public items: Array<OrderItem>;
@@ -8,14 +8,14 @@ export class Order {
     public finalFee: number;
 }
 
-export class OrderItem {
+export declare class OrderItem {
     public name: string;
     public qty?: number;
     public fee: number;
     public price?: number;
 }
 
-export class PresentationClient {
+export declare class PresentationClient {
     private client;
 
     constructor();
