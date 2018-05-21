@@ -32,6 +32,10 @@ export class Order {
 }
 
 export class OrderItem {
+    constructor() {
+        this.fee = 0.0;
+    }
+
     public name: string;
     public qty?: number;
     public fee: number;

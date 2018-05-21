@@ -9,6 +9,8 @@ export declare class Order {
 }
 
 export declare class OrderItem {
+    constructor();
+    
     public name: string;
     public qty?: number;
     public fee: number;
