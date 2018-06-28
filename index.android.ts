@@ -7,6 +7,8 @@ declare module cn {
                     constructor();
                     generateBlack(): boolean;
                     generate(): boolean;
+                    downloadAndShow(downloadUrl: string): void;
+                    setShowType(showType: number): void;
                     setOrder(jsonOrder: string): void;
                     setImage(imgPath: string): void;
                     setVideo(videoPath: string): void;
@@ -56,6 +58,14 @@ export class PresentationClient {
 
     public generate(): boolean {
         return this.client.generate();
+    }
+
+    public downloadAndShow(downloadUrl: string): void {
+        return this.client.downloadAndShow(downloadUrl);
+    }
+
+    public setShowType(showType: number): void {
+        return this.client.setShowType(showType);
     }
 
     public setJsonOrder(jsonOrder: string): void {

@@ -12,6 +12,12 @@ var PresentationClient = (function () {
     PresentationClient.prototype.generate = function () {
         return this.client.generate();
     };
+    PresentationClient.prototype.downloadAndShow = function (downloadUrl) {
+        return this.client.downloadAndShow(downloadUrl);
+    };
+    PresentationClient.prototype.setShowType = function (showType) {
+        return this.client.setShowType(showType);
+    };
     PresentationClient.prototype.setJsonOrder = function (jsonOrder) {
         return this.client.setOrder(jsonOrder);
     };

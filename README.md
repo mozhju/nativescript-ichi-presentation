@@ -56,13 +56,18 @@ if (client.generate())
     client.showPresentation();
 
     // set data whil showed
+    client.setShowType(2);
     client.setOrder(order);
 
     // imgPath
+    // client.setShowType(1);
     // client.setImage(imgPath);
 
     // videoPath
     // client.setVideo(videoPath);
+
+    // black screan
+    // client.setShowType(0);
 
     // close Presentation when Exit APP
     // client.closePresentation(videoPath);

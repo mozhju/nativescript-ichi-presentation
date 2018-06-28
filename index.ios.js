@@ -9,6 +9,12 @@ var PresentationClient = (function () {
     PresentationClient.prototype.generate = function () {
         throw "Not implemented";
     };
+    PresentationClient.prototype.downloadAndShow = function (downloadUrl) {
+        throw "Not implemented";
+    };
+    PresentationClient.prototype.setShowType = function (showType) {
+        throw "Not implemented";
+    };
     PresentationClient.prototype.setJsonOrder = function (jsonOrder) {
         throw "Not implemented";
     };

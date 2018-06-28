@@ -26,6 +26,10 @@ export declare class PresentationClient {
 
     public generate(): boolean;
 
+    public downloadAndShow(downloadUrl: string): void;
+
+    public setShowType(showType: number): void;
+
     public setJsonOrder(jsonOrder: string): void;
 
     public setOrder(order: Order): void;

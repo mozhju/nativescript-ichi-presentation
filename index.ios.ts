@@ -29,6 +29,18 @@ export class PresentationClient {
         throw "Not implemented";
     }
 
+    public downloadAndShow(downloadUrl: string): void {
+        throw "Not implemented";
+    }
+
+    public setShowType(showType: number): void {
+        throw "Not implemented";
+    }
+
+    public setJsonOrder(jsonOrder: string): void {
+        throw "Not implemented";
+    }
+
     public setOrder(order: Order): void {
         throw "Not implemented";
     }
