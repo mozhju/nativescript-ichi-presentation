@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,41 +12,107 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Test 测试">
-        </EditText>
-        <EditText
-            android:id="@+id/qty"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="1">
-        </EditText>
-        <EditText
-            android:id="@+id/fee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2.6">
-        </EditText>
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Test 测试">
+            </EditText>
+            <EditText
+                android:id="@+id/qty"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="1">
+            </EditText>
+            <EditText
+                android:id="@+id/fee"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="2.6">
+            </EditText>
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btnShow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="切换显示" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="黑屏测试" />
+            <Button
+                android:id="@+id/btnOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单显示" />
 
-        <Button
-            android:id="@+id/btnOrder"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单独广告" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="添加数据" />
-        <Button
-            android:id="@+id/btnBlack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="黑屏测试" />
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/image_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </EditText>
+            <EditText
+                android:id="@+id/image_file"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </EditText>
+            <EditText
+                android:id="@+id/video_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </EditText>
+            <EditText
+                android:id="@+id/video_file"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnImagePath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片目录" />
+            <Button
+                android:id="@+id/btnImageFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单张图片" />
+
+            <Button
+                android:id="@+id/btnVideoPath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="视频目录" />
+            <Button
+                android:id="@+id/btnVideoFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单个视频" />
+            <Button
+                android:id="@+id/btnURL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下载URL" />
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

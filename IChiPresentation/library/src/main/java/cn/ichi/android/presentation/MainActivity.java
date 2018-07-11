@@ -1,5 +1,6 @@
 package cn.ichi.android.presentation;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.widget.EditText;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,9 +20,20 @@ public class MainActivity extends AppCompatActivity {
     private EditText edtQty;
     private EditText edtFee;
 
+    private EditText edtImagePath;
+    private EditText edtImageFile;
+    private EditText edtVideoPath;
+    private EditText edtVideoFile;
+
     private Button btnShow;
     private Button btnOrder;
     private Button btnBlack;
+
+    private Button btnImagePath;
+    private Button btnImageFile;
+    private Button btnVideoPath;
+    private Button btnVideoFile;
+    private Button btnURL;
 
 
     private MyPresentation myPresentation;
@@ -29,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String dir = "";
+        if (Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED)) {
+            dir = Environment.getExternalStorageDirectory().getPath() + "/Presentation/";
+        } else {
+            dir = getFilesDir().getPath() + "/";
+        }
+
         myPresentation = new MyPresentation();
 
         order = new Order();
@@ -38,18 +61,79 @@ public class MainActivity extends AppCompatActivity {
         edtQty = (EditText)findViewById(R.id.qty);
         edtFee = (EditText)findViewById(R.id.fee);
 
-        btnShow = (Button)findViewById(R.id.btnShow);
-        btnShow.setOnClickListener(new View.OnClickListener() {
+        edtImagePath = (EditText)findViewById(R.id.image_path);
+        edtImageFile = (EditText)findViewById(R.id.image_file);
+        edtVideoPath = (EditText)findViewById(R.id.video_path);
+        edtVideoFile = (EditText)findViewById(R.id.video_file);
+
+        edtImagePath.setText(dir);
+        edtImageFile.setText(dir + "071.jpg");
+        edtVideoPath.setText(dir);
+        edtVideoFile.setText(dir + "430.3gp");
+
+        btnImagePath = (Button)findViewById(R.id.btnImagePath);
+        btnImagePath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myPresentation.generate();
                 myPresentation.showPresentation();
-                String jsonOrder = orderToJson(order);
-                myPresentation.setOrder(jsonOrder);
+                myPresentation.setImage(edtImagePath.getText().toString());
+            }
+        });
 
-                final int maxCount = 30;
+        btnImageFile = (Button)findViewById(R.id.btnImageFile);
+        btnImageFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation.generate();
+                myPresentation.showPresentation();
+                myPresentation.setImage(edtImageFile.getText().toString());
+            }
+        });
+
+        btnVideoPath = (Button)findViewById(R.id.btnVideoPath);
+        btnVideoPath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation.generate();
+                myPresentation.showPresentation();
+                myPresentation.setVideo(edtVideoPath.getText().toString());
+            }
+        });
+
+        btnVideoFile = (Button)findViewById(R.id.btnVideoFile);
+        btnVideoFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation.generate();
+                myPresentation.showPresentation();
+                myPresentation.setVideo(edtVideoFile.getText().toString());
+            }
+        });
+
+        btnURL = (Button)findViewById(R.id.btnURL);
+        btnURL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation.generate();
+                myPresentation.showPresentation();
+                myPresentation.downloadAndShow("http://192.168.1.5/Share/ad.txt?time="+new Date().getTime());
+            }
+        });
+
+        btnOrder = (Button)findViewById(R.id.btnOrder);
+        btnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation.generate();
+                myPresentation.setShowType(2);
+                myPresentation.showPresentation();
+
+                myPresentation.setVideo(edtVideoPath.getText().toString());
+
+                final int maxCount = 10;
                 new Thread(new Runnable(){
-                    public void run(){
+                    public void run() {
                         int count = maxCount;
                         while (count-- > 0) {
                             try {
@@ -58,12 +142,12 @@ public class MainActivity extends AppCompatActivity {
                                 item.qty = Integer.parseInt(edtQty.getText().toString());
                                 item.fee = Double.parseDouble(edtFee.getText().toString());
 
-                                if (order.items.size() < 20) {
+                                if (order.items.size() < 5) {
                                     order.items.add(item);
                                 }
                                 order.finalFee += item.fee;
 
-                                Thread.sleep(300);
+                                Thread.sleep(100);
 
                                 String jsonOrder = orderToJson(order);
                                 myPresentation.setOrder(jsonOrder);
@@ -79,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                                 item.fee += fee;
                                 order.finalFee += fee;
 
-                                Thread.sleep(300);
+                                Thread.sleep(100);
                                 String jsonOrder = orderToJson(order);
                                 myPresentation.setOrder(jsonOrder);
                             } catch (Exception ex) {
@@ -91,18 +175,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnOrder = (Button)findViewById(R.id.btnOrder);
-        btnOrder.setOnClickListener(new View.OnClickListener() {
+        btnShow = (Button)findViewById(R.id.btnShow);
+        btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OrderItem item = new OrderItem();
-                item.name = edtName.getText().toString();
-                item.qty = Integer.parseInt(edtQty.getText().toString());
-                item.fee = Double.parseDouble(edtFee.getText().toString());
-
-                order.items.add(item);
-                order.coupons.add(item);
-                order.finalFee += item.fee;
+                myPresentation.generate();
+                myPresentation.showPresentation();
+                myPresentation.setShowType(1);
             }
         });
 
