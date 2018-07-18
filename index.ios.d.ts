@@ -30,6 +30,14 @@ export declare class PresentationClient {
 
     public setShowType(showType: number): void;
 
+    public setImageDisplayTime(imageDisplayTime: number): void;
+
+    public ShowMenu(): void;
+
+    public ShowMedia(): void;
+
+    public ShowAdvertisement(): void;
+
     public setJsonOrder(jsonOrder: string): void;
 
     public setOrder(order: Order): void;

@@ -58,25 +58,25 @@ public class MyPresentation {
 
         Activity activity = Utils.getActivity();
         if (activity != null) {
-//            MediaRouter mMediaRouter = (MediaRouter) activity.getSystemService(Context.MEDIA_ROUTER_SERVICE);
-//            MediaRouter.RouteInfo route = mMediaRouter.getSelectedRoute(
-//                    MediaRouter.ROUTE_TYPE_LIVE_VIDEO);
-//            Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
-//
-//            if (presentationDisplay != null) {
-//                presentation = new DifferentDisplay(activity, presentationDisplay);
-//                return true;
-//            }
+            MediaRouter mMediaRouter = (MediaRouter) activity.getSystemService(Context.MEDIA_ROUTER_SERVICE);
+            MediaRouter.RouteInfo route = mMediaRouter.getSelectedRoute(
+                    MediaRouter.ROUTE_TYPE_LIVE_VIDEO);
+            Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
 
-            DisplayManager  mDisplayManager;//屏幕管理类
-            Display[]  displays;//屏幕数组
-            mDisplayManager = (DisplayManager)activity.getSystemService(Context.DISPLAY_SERVICE);
-            displays = mDisplayManager.getDisplays();
-            //if (displays.length > 1)
-            {
-                presentation = new DifferentDisplay(activity, displays[0]);
+            if (presentationDisplay != null) {
+                presentation = new DifferentDisplay(activity, presentationDisplay);
                 return true;
             }
+
+//            DisplayManager  mDisplayManager;//屏幕管理类
+//            Display[]  displays;//屏幕数组
+//            mDisplayManager = (DisplayManager)activity.getSystemService(Context.DISPLAY_SERVICE);
+//            displays = mDisplayManager.getDisplays();
+//            //if (displays.length > 1)
+//            {
+//                presentation = new DifferentDisplay(activity, displays[0]);
+//                return true;
+//            }
         }
         return false;
     }
@@ -129,10 +129,14 @@ public class MyPresentation {
     }
 
 
-    private void download(Context mContext, String downloadUrl, File saveDir, String fileName, int threadNum) {
-        File apkFile = new File(saveDir, fileName);
-        if (apkFile.exists()) {
-            presentation.addDownLoadFile(apkFile.getAbsolutePath());
+    private interface AddCallBack {
+        public void Download(String downloadFile);
+    }
+
+    private void download(Context mContext, String downloadUrl, File saveDir, String fileName, int threadNum, final AddCallBack callBack) {
+        File downloadFile = new File(saveDir, fileName);
+        if (downloadFile.exists()) {
+            callBack.Download(downloadFile.getAbsolutePath());
             return;
         }
 
@@ -151,8 +155,8 @@ public class MyPresentation {
                     }
 
                     @Override
-                    public void onDownloadSuccess(String apkPath) {
-                        presentation.addDownLoadFile(apkPath);
+                    public void onDownloadSuccess(String downloadFilePath) {
+                        callBack.Download(downloadFilePath);
                     }
 
                     @Override
@@ -182,56 +186,119 @@ public class MyPresentation {
 
 
     public void downloadAndShow(final String url) {
-        new Thread() {
-            @Override
-            public void run() {
-                Application application = Utils.getApplication();
-                File saveDir = application.getExternalFilesDir("");
+        if (presentation != null) {
+            presentation.ShowWaiting();
 
-                AdInfoResult infoResult = HttpUtils.parseResult(HttpUtils.getResponse(url));
+            new Thread() {
+                @Override
+                public void run() {
+                    Application application = Utils.getApplication();
+                    String cacheDir = application.getExternalFilesDir("").getAbsolutePath() + "/Presentation/";
+                    File saveDir = new File(cacheDir);
+                    saveDir.mkdirs();
 
-                int mediaType = infoResult.getMediaType();
-                if (presentation != null) {
-                    List<String> files = null;
-                    int threadNum = 1;
-                    switch (mediaType)
-                    {
-                        case 0:
-                            if (infoResult.getImages() != null) {
-                                files = infoResult.getImages();
-                                threadNum = 1;
-                            }
-
-                            break;
-
-                        case 1:
-                            if (infoResult.getVideos() != null) {
-                                files = infoResult.getVideos();
-                                threadNum = 3;
-                            }
-
-                            break;
-
-                        default:
-                            break;
+                    AdInfoResult infoResult = HttpUtils.parseResult(HttpUtils.getResponse(url));
+                    if (infoResult == null) {
+                        return;
                     }
 
-                    if (files != null) {
-                        presentation.clearFiles();
-                        for(String fileUrl : files) {
+                    List<String> files = infoResult.getMediaFiles();
+
+                    final boolean hasMedia;
+                    if (files != null && files.size() > 0) {
+
+                        presentation.clearMediaFiles();
+                        hasMedia = true;
+
+                        for (String fileUrl : files) {
                             String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-                            download(application, fileUrl, saveDir, fileName, threadNum);
+                            download(application, fileUrl, saveDir, fileName, 3, new AddCallBack() {
+                                @Override
+                                public void Download(String downloadFile) {
+                                    presentation.addMediaFile(downloadFile);
+                                    presentation.ShowMedia();
+                                }
+                            });
+                        }
+                    } else {
+                        hasMedia = false;
+                    }
+
+                    List<String> menus = infoResult.getMenus();
+                    if (menus != null && menus.size() > 0) {
+
+                        presentation.clearMenuFiles();
+
+                        for (String fileUrl : menus) {
+                            String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                            download(application, fileUrl, saveDir, fileName, 3, new AddCallBack() {
+                                @Override
+                                public void Download(String downloadFile) {
+                                    presentation.addMenuFile(downloadFile);
+                                    if (hasMedia == false) {
+                                        presentation.ShowMenu();
+                                    }
+                                }
+                            });
                         }
                     }
+
                 }
-            }
-        }.start();
+            }.start();
+        }
     }
 
 
-    public void setShowType(int showType){
+    public void cleanCacheFile() {
+        if (presentation != null) {
+            presentation.clearAllFiles();
+
+            presentation.ShowMedia();
+
+            Application application = Utils.getApplication();
+            String cacheDir = application.getExternalFilesDir("").getAbsolutePath() + "/Presentation/";
+            File saveDir = new File(cacheDir);
+            if (saveDir.isDirectory()) {
+                File[] fs = saveDir.listFiles();
+                for (File f : fs) {
+                    f.delete();
+                }
+            }
+        }
+    }
+
+
+    public void setShowType(int showType) {
         if (presentation != null) {
             presentation.setShowType(showType);
+        }
+    }
+
+
+    public void setImageDisplayTime(int imageDisplayTime) {
+        if (presentation != null) {
+            presentation.setImageDisplayTime(imageDisplayTime);
+        }
+    }
+
+
+    public void ShowMenu() {
+        if (presentation != null) {
+            presentation.ShowMenu();
+        }
+    }
+
+
+    public void ShowMedia() {
+        if (presentation != null) {
+            presentation.ShowMedia();
+        }
+    }
+
+
+    public void ShowAdvertisement() {
+        if (presentation != null) {
+            presentation.ShowAdvertisement();
         }
     }
 
@@ -282,9 +349,9 @@ public class MyPresentation {
         if (presentation != null) {
             File file = new File(path);
             if (file.isDirectory()) {
-                presentation.setImageDir(path);
+                presentation.setMediaDir(path, 1);
             } else if (file.isFile()){
-                presentation.setImageFile(path);
+                presentation.setMediaFile(path, 1);
             }
         }
     }
@@ -294,9 +361,9 @@ public class MyPresentation {
         if (presentation != null) {
             File file = new File(path);
             if (file.isDirectory()) {
-                presentation.setVideoDir(path);
+                presentation.setMediaDir(path, 2);
             } else if (file.isFile()){
-                presentation.setVideoFile(path);
+                presentation.setMediaFile(path, 2);
             }
         }
     }

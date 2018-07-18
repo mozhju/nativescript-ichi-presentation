@@ -60,27 +60,24 @@ public class HttpUtils {
                 AdInfoResult adInfoResult = new AdInfoResult();
                 JSONObject jsonObject = new JSONObject(result);
 
-                int mediaType = jsonObject.getInt("mediaType");
-                adInfoResult.setMediaType(mediaType);
-
-                if (jsonObject.has("images")) {
-                    JSONArray images = jsonObject.getJSONArray("images");
-                    List<String> lstImage = new ArrayList<>();
-                    for (int i = 0; i < images.length(); i++) {
-                        String url = images.getString(i);
-                        lstImage.add(url);
+                if (jsonObject.has("mediaFiles")) {
+                    JSONArray mediaFiles = jsonObject.getJSONArray("mediaFiles");
+                    List<String> lstMediaFiles = new ArrayList<>();
+                    for (int i = 0; i < mediaFiles.length(); i++) {
+                        String url = mediaFiles.getString(i);
+                        lstMediaFiles.add(url);
                     }
-                    adInfoResult.setImages(lstImage);
+                    adInfoResult.setMediaFiles(lstMediaFiles);
                 }
 
-                if (jsonObject.has("videos")) {
-                    JSONArray videos = jsonObject.getJSONArray("videos");
-                    List<String> lstVideo = new ArrayList<>();
-                    for (int i = 0; i < videos.length(); i++) {
-                        String url = videos.getString(i);
-                        lstVideo.add(url);
+                if (jsonObject.has("menus")) {
+                    JSONArray menus = jsonObject.getJSONArray("menus");
+                    List<String> lstMenu = new ArrayList<>();
+                    for (int i = 0; i < menus.length(); i++) {
+                        String url = menus.getString(i);
+                        lstMenu.add(url);
                     }
-                    adInfoResult.setVideos(lstVideo);
+                    adInfoResult.setMenus(lstMenu);
                 }
 
                 return adInfoResult;

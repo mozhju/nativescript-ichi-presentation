@@ -37,6 +37,22 @@ export class PresentationClient {
         throw "Not implemented";
     }
 
+    public setImageDisplayTime(imageDisplayTime: number): void {
+        throw "Not implemented";
+    }
+
+    public ShowMenu(): void {
+        throw "Not implemented";
+    }
+
+    public ShowMedia(): void {
+        throw "Not implemented";
+    }
+
+    public ShowAdvertisement(): void {
+        throw "Not implemented";
+    }
+
     public setJsonOrder(jsonOrder: string): void {
         throw "Not implemented";
     }

@@ -9,6 +9,10 @@ declare module cn {
                     generate(): boolean;
                     downloadAndShow(downloadUrl: string): void;
                     setShowType(showType: number): void;
+                    setImageDisplayTime(imageDisplayTime: number): void;
+                    ShowMenu(): void;
+                    ShowMedia(): void;
+                    ShowAdvertisement(): void;
                     setOrder(jsonOrder: string): void;
                     setImage(imgPath: string): void;
                     setVideo(videoPath: string): void;
@@ -66,6 +70,22 @@ export class PresentationClient {
 
     public setShowType(showType: number): void {
         return this.client.setShowType(showType);
+    }
+
+    public setImageDisplayTime(imageDisplayTime: number): void {
+        return this.client.setImageDisplayTime(imageDisplayTime);
+    }
+
+    public ShowMenu(): void {
+        return this.client.ShowMenu();
+    }
+
+    public ShowMedia(): void {
+        return this.client.ShowMedia();
+    }
+
+    public ShowAdvertisement(): void {
+        return this.client.ShowAdvertisement();
     }
 
     public setJsonOrder(jsonOrder: string): void {

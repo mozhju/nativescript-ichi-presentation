@@ -41,23 +41,26 @@ public class DifferentDisplay extends Presentation {
     private LinearLayout viewLayout;
     private LinearLayout orderLayout;
     private int showType = 1;
+    private boolean isCreated = false;
+
+    private int imageDisplayTime = 5000;
 
     private Context outerContext;
 
     private Handler handler;
-    private int mediaType;
-    private MyList<String> srcFiles = new MyList<String>();
+    private int meesageType;
+    private MyList<String> mediaFiles = new MyList<String>();
+    private MyList<String> menuFiles = new MyList<String>();
 
     private static final int  ORDER = 0;
-    private static final int  IMAGE_ONE = 1;
-    private static final int  IMAGE_MULTS = 2;
-    private static final int  VIDEO_ONE = 3;
-    private static final int  VIDEO_MULTS = 4;
-
+    private static final int  MEDIA_FILES = 1;
+    private static final int  ADVERTISEMENT = 2;
+    private static final int  MENUS = 3;
     private static final int  DOWNLOADING = 99;
 
     private List<String> imgExtensions = new ArrayList<String>();
     private List<String> videoExtensions = new ArrayList<String>();
+
 
     public DifferentDisplay(Context outerContext, Display display) {
 
@@ -108,10 +111,7 @@ public class DifferentDisplay extends Presentation {
 
         txtTotal = (TextView)findViewById(R.id.txtTotal);
 
-
-        if (srcFiles.size() > 0) {
-            sendHandleMessage(0, mediaType);
-        }
+        isCreated = true;
 
         initHeader();
 
@@ -152,7 +152,7 @@ public class DifferentDisplay extends Presentation {
     public void setShowType(int showType) {
         this.showType = showType;
 
-        if (viewLayout == null || orderLayout == null) {
+        if (!isCreated) {
             return;
         }
 
@@ -175,6 +175,49 @@ public class DifferentDisplay extends Presentation {
     }
 
 
+    public void setImageDisplayTime(int imageDisplayTime) {
+        this.imageDisplayTime = imageDisplayTime;
+    }
+
+
+    public void ShowMenu() {
+        if (menuFiles.size() > 0) {
+            if (meesageType != MENUS) {
+                meesageType = MENUS;
+                sendHandleMessage(0, meesageType);
+            }
+        } else {
+            ShowWaiting();
+        }
+    }
+
+
+    public void ShowMedia() {
+        if (mediaFiles.size() > 0) {
+            if (meesageType != MEDIA_FILES) {
+                meesageType = MEDIA_FILES;
+                sendHandleMessage(0, meesageType);
+            }
+        } else {
+            ShowWaiting();
+        }
+    }
+
+
+    public void ShowWaiting() {
+        meesageType = DOWNLOADING;
+        sendHandleMessage(0, meesageType);
+    }
+
+
+    public void ShowAdvertisement() {
+        if (meesageType != ADVERTISEMENT) {
+            meesageType = ADVERTISEMENT;
+            sendHandleMessage(0, meesageType);
+        }
+    }
+
+
     public void setOrder(Order order) {
         Message message = new Message();
         message.obj = order;
@@ -184,105 +227,96 @@ public class DifferentDisplay extends Presentation {
     }
 
 
-    public void clearFiles() {
-        srcFiles.clear();
-
-        mediaType = DOWNLOADING;
-        sendHandleMessage(0, mediaType);
+    public void clearAllFiles(){
+        mediaFiles.clear();
+        menuFiles.clear();
     }
 
 
-    public void addDownLoadFile(String path) {
+    public void clearMediaFiles() {
+        mediaFiles.clear();
+    }
+
+
+    public void clearMenuFiles() {
+        menuFiles.clear();
+    }
+
+
+    public boolean addMediaFile(String path) {
+        String prefix = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
+        if (imgExtensions.indexOf(prefix) >= 0 || videoExtensions.indexOf(prefix) >= 0) {
+            synchronized(mediaFiles) {
+                return mediaFiles.add(path);
+            }
+        }
+        return false;
+    }
+
+
+    public boolean addMenuFile(String path) {
         String prefix = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
         if (imgExtensions.indexOf(prefix) >= 0) {
-            mediaType = IMAGE_MULTS;
-            srcFiles.add(path);
-        } else if (videoExtensions.indexOf(prefix) >= 0) {
-            mediaType = VIDEO_MULTS;
-            srcFiles.add(path);
+            synchronized(menuFiles) {
+                return menuFiles.add(path);
+            }
         }
+        return false;
+    }
 
-        if (srcFiles.size() == 1) {
-            sendHandleMessage(0, mediaType);
+
+    public void setMediaFile(String path, int mediaType) {
+        synchronized(mediaFiles) {
+            mediaFiles.clear();
+
+            String prefix = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
+            if ((mediaType & 1) == 1 && imgExtensions.indexOf(prefix) >= 0) {
+                mediaFiles.add(path);
+            }
+            if ((mediaType & 2) == 2 && videoExtensions.indexOf(prefix) >= 0) {
+                mediaFiles.add(path);
+            }
+
+            if (mediaFiles.size() > 0) {
+                meesageType = MEDIA_FILES;
+                sendHandleMessage(0, meesageType);
+            }
         }
     }
 
 
-    public void setImageFile(String path) {
-        srcFiles.clear();
-
-        String prefix = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
-        if (imgExtensions.indexOf(prefix) >= 0) {
-            srcFiles.add(path);
-        }
-
-        mediaType = IMAGE_ONE;
-        if (srcFiles.size() > 0) {
-            sendHandleMessage(0, mediaType);
-        }
-    }
-
-
-    public void setImageDir(String path) {
+    public void setMediaDir(String path, int mediaType) {
 
         File file = new File(path);
         File[] fs = file.listFiles();
-        String[] fss = file.list();
 
-        srcFiles.clear();
-        for (File f : fs) {
-            String fileName = f.getPath();
-            String prefix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        synchronized(mediaFiles) {
+            mediaFiles.clear();
+            for (File f : fs) {
+                String fileName = f.getPath();
+                String prefix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 
-            if (imgExtensions.indexOf(prefix) >= 0) {
-                srcFiles.add(fileName);
+                if ((mediaType & 1) == 1 && imgExtensions.indexOf(prefix) >= 0) {
+                    mediaFiles.add(fileName);
+                }
+                if ((mediaType & 2) == 2 && videoExtensions.indexOf(prefix) >= 0) {
+                    mediaFiles.add(fileName);
+                }
+            }
+
+            if (mediaFiles.size() > 0) {
+                meesageType = MEDIA_FILES;
+                sendHandleMessage(0, meesageType);
             }
         }
-
-        mediaType = IMAGE_MULTS;
-        if (srcFiles.size() > 0) {
-            sendHandleMessage(0, mediaType);
-        }
-    }
-
-
-    public void setVideoFile(String path) {
-        srcFiles.clear();
-
-        String prefix = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
-        if (videoExtensions.indexOf(prefix) >= 0) {
-            srcFiles.add(path);
-        }
-        mediaType = VIDEO_ONE;
-        if (srcFiles.size() > 0) {
-            sendHandleMessage(0, mediaType);
-        }
-    }
-
-
-    public void setVideoDir(String path) {
-        File file = new File(path);
-        File[] fs = file.listFiles();
-
-        srcFiles.clear();
-        for (File f : fs) {
-            String fileName = f.getPath();
-            String prefix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-
-            if (videoExtensions.indexOf(prefix) >= 0) {
-                srcFiles.add(fileName);
-            }
-        }
-
-        mediaType = VIDEO_MULTS;
-        if (srcFiles.size() > 0) {
-            sendHandleMessage(0, mediaType);
-        }
-
     }
 
 
     private void sendHandleMessage(int index, int handleType) {
+        if (index < 0) {
+            return;
+        }
+
         Message message = new Message();
         message.obj = index;
         message.what = handleType;
@@ -290,7 +324,21 @@ public class DifferentDisplay extends Presentation {
     }
 
 
-    private void ShowImageFile(final String imgFile) {
+    private void ShowMediaFile(String fileName, int nextIndex) {
+        String prefix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+
+        if (imgExtensions.indexOf(prefix) >= 0)
+        {
+            ShowImageFile(fileName, nextIndex, MEDIA_FILES);
+        }
+        else if (videoExtensions.indexOf(prefix) >= 0)
+        {
+            ShowVideoFile(fileName, nextIndex);
+        }
+    }
+
+
+    private void ShowImageFile(final String imgFile, final int nextIndex, final int meesageType) {
         if (imgFile == null){
             return;
         }
@@ -306,10 +354,25 @@ public class DifferentDisplay extends Presentation {
         if (videoView.isPlaying()) {
             videoView.stopPlayback();
         }
+
+        if (nextIndex >= 0) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(imageDisplayTime);
+
+                        sendHandleMessage(nextIndex, meesageType);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
     }
 
 
-    private void ShowVideo(final String videoFile, MediaPlayer.OnCompletionListener listener) {
+    private void ShowVideoFile(final String videoFile, final int nextIndex) {
         if (videoFile == null){
             return;
         }
@@ -319,7 +382,14 @@ public class DifferentDisplay extends Presentation {
         }
         videoView.setVideoPath(videoFile);
         videoView.start();
-        videoView.setOnCompletionListener(listener);
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if (nextIndex >= 0) {
+                    sendHandleMessage(nextIndex, MEDIA_FILES);
+                }
+            }
+        });
 
         imageView.setVisibility(View.GONE);
         videoView.setVisibility(View.VISIBLE);
@@ -329,6 +399,10 @@ public class DifferentDisplay extends Presentation {
     private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
+            if (!isCreated) {
+                return;
+            }
+
             final int type = msg.what;
             if (type == ORDER) {
                 Order order = (Order)msg.obj;
@@ -340,60 +414,48 @@ public class DifferentDisplay extends Presentation {
                 return;
             }
 
-            if (type != mediaType) {
+            if (type != meesageType) {
                 return;
             }
 
-            final Integer index = (Integer)msg.obj;
-            String path = null;
-            if (srcFiles.size() > 0) {
-                path = srcFiles.get(index);
-            }
+            Integer index = (Integer)msg.obj;
+            String fileName = null;
+            int nextIndex = -1;
             switch (type) {
-                case IMAGE_ONE:
-                    ShowImageFile(path);
+                case MEDIA_FILES:
+                    synchronized(mediaFiles) {
+                        if (index < mediaFiles.size()) {
+                            fileName = mediaFiles.get(index);
+                            nextIndex = (index + 1) % mediaFiles.size();
+                        }
+                    }
+                    ShowMediaFile(fileName, nextIndex);
                     break;
 
-                case IMAGE_MULTS:
-                    ShowImageFile(path);
+                case ADVERTISEMENT:
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(5000);
-
-                                if (srcFiles.size() > 0) {
-                                    sendHandleMessage((index + 1) % srcFiles.size(), type);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
                     break;
 
-                case VIDEO_ONE:
-                case VIDEO_MULTS:
-                    ShowVideo(path, new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            if (srcFiles.size() > 0) {
-                                sendHandleMessage((index + 1) % srcFiles.size(), type);
-                            }
+                case MENUS:
+                    synchronized(menuFiles) {
+                        if (index < menuFiles.size()) {
+                            fileName = menuFiles.get(index);
+                            nextIndex = (index + 1) % menuFiles.size();
                         }
-                    });
+                    }
+                    ShowImageFile(fileName, nextIndex, MENUS);
                     break;
 
                 case DOWNLOADING:
                     imageView.setImageResource(R.drawable.ichi_downloading);
                     imageView.setVisibility(View.VISIBLE);
                     videoView.setVisibility(View.GONE);
-
                     break;
+
                 default:
                     break;
             }
         }
     }
+
 }

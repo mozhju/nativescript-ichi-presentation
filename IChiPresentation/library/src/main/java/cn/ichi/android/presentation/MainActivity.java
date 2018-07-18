@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnVideoPath;
     private Button btnVideoFile;
     private Button btnURL;
+    private Button btnMenu;
+    private Button btnClean;
 
 
     private MyPresentation myPresentation;
@@ -118,6 +120,26 @@ public class MainActivity extends AppCompatActivity {
                 myPresentation.generate();
                 myPresentation.showPresentation();
                 myPresentation.downloadAndShow("http://192.168.1.5/Share/ad.txt?time="+new Date().getTime());
+            }
+        });
+
+        btnMenu = (Button)findViewById(R.id.btnMenu);
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation.generate();
+                myPresentation.showPresentation();
+                myPresentation.ShowMenu();
+            }
+        });
+
+        btnClean = (Button)findViewById(R.id.btnClean);
+        btnClean.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation.generate();
+                myPresentation.showPresentation();
+                myPresentation.cleanCacheFile();
             }
         });
 

@@ -7,31 +7,31 @@ import java.util.List;
  */
 
 public class AdInfoResult {
-    private int mediaType;
-    private List<String> images;
-    private List<String> videos;
+//    private int mediaType;
+    private List<String> mediaFiles;
+    private List<String> menus;
 
-    public int getMediaType() {
-        return mediaType;
+//    public int getMediaType() {
+//        return mediaType;
+//    }
+
+    public List<String> getMediaFiles() {
+        return mediaFiles;
     }
 
-    public List<String> getImages() {
-        return images;
+    public List<String> getMenus() {
+        return menus;
     }
 
-    public List<String> getVideos() {
-        return videos;
+//    public void setMediaType(int mediaType) {
+//        this.mediaType = mediaType;
+//    }
+
+    public void setMediaFiles(List<String> mediaFiles) {
+        this.mediaFiles = mediaFiles;
     }
 
-    public void setMediaType(int mediaType) {
-        this.mediaType = mediaType;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
-    }
-
-    public void setVideos(List<String> videos) {
-        this.videos = videos;
+    public void setMenus(List<String> menus) {
+        this.menus = menus;
     }
 }

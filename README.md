@@ -64,12 +64,24 @@ if (client.generate())
     // client.setImage(imgPath);
 
     // videoPath
+    // client.setShowType(1);
     // client.setVideo(videoPath);
 
     // black screan
     // client.setShowType(0);
 
-    // close Presentation when Exit APP
+    // media from web
+    // url response json string like: {"mediaFiles":["http://192.168.1.5/800.jpg"],"menus":["http://192.168.1.5/menu1.jpg"]} 
+    // var url = "http://192.168.1.5/media/";
+    // client.downloadAndShow(url);
+
+    // show "menus" by downloadAndShow
+    // client.ShowMenu();
+
+    // show "mediaFiles" by downloadAndShow
+    // client.ShowMedia();
+
+    // close Presentation
     // client.closePresentation(videoPath);
 }
 else

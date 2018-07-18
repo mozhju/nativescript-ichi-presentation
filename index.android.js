@@ -6,37 +6,64 @@ var PresentationClient = (function () {
 
         this.client = new cn.ichi.android.presentation.MyPresentation();
     }
+
     PresentationClient.prototype.generateBlack = function () {
         return this.client.generateBlack();
     };
+
     PresentationClient.prototype.generate = function () {
         return this.client.generate();
     };
+
     PresentationClient.prototype.downloadAndShow = function (downloadUrl) {
         return this.client.downloadAndShow(downloadUrl);
     };
+
     PresentationClient.prototype.setShowType = function (showType) {
         return this.client.setShowType(showType);
     };
+
+    PresentationClient.prototype.setImageDisplayTime(imageDisplayTime) = function () {
+        return this.client.setImageDisplayTime(imageDisplayTime);
+    };
+
+    PresentationClient.prototype.ShowMenu() = function () {
+        return this.client.ShowMenu();
+    };
+
+    PresentationClient.prototype.ShowMedia() = function () {
+        return this.client.ShowMedia();
+    };
+
+    PresentationClient.prototype.ShowAdvertisement() = function () {
+        return this.client.ShowAdvertisement();
+    };
+
     PresentationClient.prototype.setJsonOrder = function (jsonOrder) {
         return this.client.setOrder(jsonOrder);
     };
+
     PresentationClient.prototype.setOrder = function (order) {
         var jsonOrder = JSON.stringify(order);
         return this.client.setOrder(jsonOrder);
     };
+
     PresentationClient.prototype.setImage = function (imgPath) {
         return this.client.setImage(imgPath);
     };
+
     PresentationClient.prototype.setVideo = function (videoPath) {
         return this.client.setVideo(videoPath);
     };
+
     PresentationClient.prototype.showPresentation = function () {
         return this.client.showPresentation();
     };
+
     PresentationClient.prototype.closePresentation = function () {
         return this.client.closePresentation();
     };
+
     return PresentationClient;
 }());
 exports.PresentationClient = PresentationClient;
