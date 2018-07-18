@@ -79,6 +79,7 @@ public class DifferentDisplay extends Presentation {
         videoExtensions.add("mov");
         videoExtensions.add("avi");
         videoExtensions.add("flv");
+        videoExtensions.add("wmv");
     }
 
 
