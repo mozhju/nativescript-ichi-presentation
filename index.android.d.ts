@@ -28,6 +28,8 @@ export declare class PresentationClient {
 
     public downloadAndShow(downloadUrl: string): void;
 
+    public cleanCacheFile(): void;
+
     public setShowType(showType: number): void;
 
     public setImageDisplayTime(imageDisplayTime: number): void;

@@ -81,6 +81,9 @@ if (client.generate())
     // show "mediaFiles" by downloadAndShow
     // client.ShowMedia();
 
+    // clean Files downloaded by downloadAndShow
+    // client.cleanCacheFile();
+
     // close Presentation
     // client.closePresentation(videoPath);
 }

@@ -15,23 +15,27 @@ var PresentationClient = (function () {
         throw "Not implemented";
     };
 
+    PresentationClient.prototype.cleanCacheFile = function () {
+        throw "Not implemented";
+    };
+
     PresentationClient.prototype.setShowType = function (showType) {
         throw "Not implemented";
     };
 
-    PresentationClient.prototype.setImageDisplayTime(imageDisplayTime) = function () {
+    PresentationClient.prototype.setImageDisplayTime = function (imageDisplayTime) {
         throw "Not implemented";
     };
 
-    PresentationClient.prototype.ShowMenu() = function () {
+    PresentationClient.prototype.ShowMenu = function () {
         throw "Not implemented";
     };
 
-    PresentationClient.prototype.ShowMedia() = function () {
+    PresentationClient.prototype.ShowMedia = function () {
         throw "Not implemented";
     };
 
-    PresentationClient.prototype.ShowAdvertisement() = function () {
+    PresentationClient.prototype.ShowAdvertisement = function () {
         throw "Not implemented";
     };
 

@@ -19,23 +19,27 @@ var PresentationClient = (function () {
         return this.client.downloadAndShow(downloadUrl);
     };
 
+    PresentationClient.prototype.cleanCacheFile = function () {
+        return this.client.cleanCacheFile();
+    };
+
     PresentationClient.prototype.setShowType = function (showType) {
         return this.client.setShowType(showType);
     };
 
-    PresentationClient.prototype.setImageDisplayTime(imageDisplayTime) = function () {
+    PresentationClient.prototype.setImageDisplayTime = function (imageDisplayTime) {
         return this.client.setImageDisplayTime(imageDisplayTime);
     };
 
-    PresentationClient.prototype.ShowMenu() = function () {
+    PresentationClient.prototype.ShowMenu = function () {
         return this.client.ShowMenu();
     };
 
-    PresentationClient.prototype.ShowMedia() = function () {
+    PresentationClient.prototype.ShowMedia = function () {
         return this.client.ShowMedia();
     };
 
-    PresentationClient.prototype.ShowAdvertisement() = function () {
+    PresentationClient.prototype.ShowAdvertisement = function () {
         return this.client.ShowAdvertisement();
     };
 

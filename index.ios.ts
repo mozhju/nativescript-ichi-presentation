@@ -33,6 +33,10 @@ export class PresentationClient {
         throw "Not implemented";
     }
 
+    public cleanCacheFile(): void {
+        throw "Not implemented";
+    }
+
     public setShowType(showType: number): void {
         throw "Not implemented";
     }
