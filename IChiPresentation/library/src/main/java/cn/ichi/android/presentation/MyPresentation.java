@@ -35,7 +35,7 @@ public class MyPresentation {
 
     private static String TAG = "MyPresentation";
 
-    private DifferentDisplay presentation = null;
+    private static DifferentDisplay presentation = null;
 
     public MyPresentation() {
     }
@@ -249,11 +249,13 @@ public class MyPresentation {
     }
 
 
-    public void cleanCacheFile() {
+    public void cleanCacheFile(boolean deleteAll) {
         if (presentation != null) {
-            presentation.clearAllFiles();
+            if (deleteAll) {
+                presentation.clearAllFiles();
 
-            presentation.ShowMedia();
+                presentation.ShowMedia();
+            }
 
             Application application = Utils.getApplication();
             String cacheDir = application.getExternalFilesDir("").getAbsolutePath() + "/Presentation/";
@@ -261,6 +263,9 @@ public class MyPresentation {
             if (saveDir.isDirectory()) {
                 File[] fs = saveDir.listFiles();
                 for (File f : fs) {
+                    if (!deleteAll && presentation.isUsing(f.getAbsolutePath())) {
+                        continue;
+                    }
                     f.delete();
                 }
             }

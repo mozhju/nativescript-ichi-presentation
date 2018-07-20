@@ -150,6 +150,23 @@ public class DifferentDisplay extends Presentation {
     }
 
 
+    public boolean isUsing(String file) {
+        for(int i = 0; i < mediaFiles.size(); i++)
+        {
+            if (mediaFiles.get(i).equals(file)){
+                return true;
+            }
+        }
+        for(int i = 0; i < menuFiles.size(); i++)
+        {
+            if (menuFiles.get(i).equals(file)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public void setShowType(int showType) {
         this.showType = showType;
 

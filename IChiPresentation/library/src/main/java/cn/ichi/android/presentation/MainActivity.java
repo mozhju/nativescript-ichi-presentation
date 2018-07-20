@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 myPresentation.generate();
                 myPresentation.showPresentation();
-                myPresentation.cleanCacheFile();
+                myPresentation.cleanCacheFile(false);
             }
         });
 
