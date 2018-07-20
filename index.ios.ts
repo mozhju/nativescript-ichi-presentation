@@ -33,7 +33,7 @@ export class PresentationClient {
         throw "Not implemented";
     }
 
-    public cleanCacheFile(): void {
+    public cleanCacheFile(deleteAll: boolean): void {
         throw "Not implemented";
     }
 

@@ -19,8 +19,8 @@ var PresentationClient = (function () {
         return this.client.downloadAndShow(downloadUrl);
     };
 
-    PresentationClient.prototype.cleanCacheFile = function () {
-        return this.client.cleanCacheFile();
+    PresentationClient.prototype.cleanCacheFile = function (deleteAll) {
+        return this.client.cleanCacheFile(deleteAll);
     };
 
     PresentationClient.prototype.setShowType = function (showType) {

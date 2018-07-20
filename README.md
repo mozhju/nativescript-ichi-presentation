@@ -82,7 +82,8 @@ if (client.generate())
     // client.ShowMedia();
 
     // clean Files downloaded by downloadAndShow
-    // client.cleanCacheFile();
+    // var deleteAll = false;
+    // client.cleanCacheFile(deleteAll);
 
     // close Presentation
     // client.closePresentation(videoPath);

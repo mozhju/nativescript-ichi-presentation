@@ -15,7 +15,7 @@ var PresentationClient = (function () {
         throw "Not implemented";
     };
 
-    PresentationClient.prototype.cleanCacheFile = function () {
+    PresentationClient.prototype.cleanCacheFile = function (deleteAll) {
         throw "Not implemented";
     };
 

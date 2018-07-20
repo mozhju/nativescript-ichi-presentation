@@ -28,7 +28,7 @@ export declare class PresentationClient {
 
     public downloadAndShow(downloadUrl: string): void;
 
-    public cleanCacheFile(): void;
+    public cleanCacheFile(deleteAll: boolean): void;
 
     public setShowType(showType: number): void;
 
