@@ -48,9 +48,9 @@ public class DifferentDisplay extends Presentation {
     private Context outerContext;
 
     private Handler handler;
-    private int meesageType;
-    private MyList<String> mediaFiles = new MyList<String>();
-    private MyList<String> menuFiles = new MyList<String>();
+    private static int meesageType;
+    private static MyList<String> mediaFiles = new MyList<String>();
+    private static MyList<String> menuFiles = new MyList<String>();
 
     private static final int  ORDER = 0;
     private static final int  MEDIA_FILES = 1;
@@ -343,6 +343,10 @@ public class DifferentDisplay extends Presentation {
 
 
     private void ShowMediaFile(String fileName, int nextIndex) {
+        if (fileName == null) {
+            return;
+        }
+
         String prefix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
 
         if (imgExtensions.indexOf(prefix) >= 0)
@@ -406,6 +410,16 @@ public class DifferentDisplay extends Presentation {
                 if (nextIndex >= 0) {
                     sendHandleMessage(nextIndex, MEDIA_FILES);
                 }
+            }
+        });
+        videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                videoView.stopPlayback(); //播放异常，则停止播放，防止弹窗使界面阻塞
+                if (nextIndex >= 0) {
+                    sendHandleMessage(nextIndex, MEDIA_FILES);
+                }
+                return true;
             }
         });
 

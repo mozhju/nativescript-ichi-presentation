@@ -35,7 +35,10 @@ public class MyPresentation {
 
     private static String TAG = "MyPresentation";
 
-    private static DifferentDisplay presentation = null;
+    private DifferentDisplay presentation = null;
+    private Activity m_Activity;
+    private int showType = 0;
+
 
     public MyPresentation() {
     }
@@ -53,18 +56,21 @@ public class MyPresentation {
     public boolean generate() {
 
         if (presentation != null) {
-            return true;
+            presentation.cancel();
         }
 
         Activity activity = Utils.getActivity();
         if (activity != null) {
-            MediaRouter mMediaRouter = (MediaRouter) activity.getSystemService(Context.MEDIA_ROUTER_SERVICE);
+            m_Activity = activity;
+        }
+        if (m_Activity != null) {
+            MediaRouter mMediaRouter = (MediaRouter) m_Activity.getSystemService(Context.MEDIA_ROUTER_SERVICE);
             MediaRouter.RouteInfo route = mMediaRouter.getSelectedRoute(
                     MediaRouter.ROUTE_TYPE_LIVE_VIDEO);
             Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
 
             if (presentationDisplay != null) {
-                presentation = new DifferentDisplay(activity, presentationDisplay);
+                presentation = new DifferentDisplay(m_Activity, presentationDisplay);
                 return true;
             }
 
@@ -209,6 +215,7 @@ public class MyPresentation {
 
                         presentation.clearMediaFiles();
                         hasMedia = true;
+                        showType = 0;
 
                         for (String fileUrl : files) {
                             String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
@@ -221,6 +228,7 @@ public class MyPresentation {
                             });
                         }
                     } else {
+                        showType = 1;
                         hasMedia = false;
                     }
 
@@ -289,6 +297,7 @@ public class MyPresentation {
 
     public void ShowMenu() {
         if (presentation != null) {
+            showType = 1;
             presentation.ShowMenu();
         }
     }
@@ -296,6 +305,7 @@ public class MyPresentation {
 
     public void ShowMedia() {
         if (presentation != null) {
+            showType = 0;
             presentation.ShowMedia();
         }
     }
@@ -303,6 +313,7 @@ public class MyPresentation {
 
     public void ShowAdvertisement() {
         if (presentation != null) {
+            showType = 2;
             presentation.ShowAdvertisement();
         }
     }
@@ -353,6 +364,7 @@ public class MyPresentation {
     public void setImage(String path) {
         if (presentation != null) {
             File file = new File(path);
+            showType = 0;
             if (file.isDirectory()) {
                 presentation.setMediaDir(path, 1);
             } else if (file.isFile()){
@@ -365,6 +377,7 @@ public class MyPresentation {
     public void setVideo(String path) {
         if (presentation != null) {
             File file = new File(path);
+            showType = 0;
             if (file.isDirectory()) {
                 presentation.setMediaDir(path, 2);
             } else if (file.isFile()){
@@ -376,6 +389,21 @@ public class MyPresentation {
 
     public void showPresentation() {
         if (presentation != null) {
+            presentation.ShowWaiting();
+
+            switch (showType ) {
+                case 0:
+                    presentation.ShowMedia();
+                    break;
+
+                case 1:
+                    presentation.ShowMenu();
+                    break;
+
+                case 2:
+                    presentation.ShowAdvertisement();
+            }
+
             presentation.show();
         }
     }

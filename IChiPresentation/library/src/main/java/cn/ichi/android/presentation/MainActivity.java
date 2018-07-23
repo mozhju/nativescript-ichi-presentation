@@ -217,6 +217,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (myPresentation != null) {
+            myPresentation.generate();
+            myPresentation.showPresentation();
+        }
+    }
+
+
     private String orderToJson(Order order){
         JSONObject jsonObject = new JSONObject();
         try {
