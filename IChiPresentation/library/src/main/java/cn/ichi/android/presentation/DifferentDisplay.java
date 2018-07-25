@@ -52,6 +52,7 @@ public class DifferentDisplay extends Presentation {
     private static MyList<String> mediaFiles = new MyList<String>();
     private static MyList<String> menuFiles = new MyList<String>();
 
+    private static final int  CANCEL = 0;
     private static final int  ORDER = 0;
     private static final int  MEDIA_FILES = 1;
     private static final int  ADVERTISEMENT = 2;
@@ -117,6 +118,15 @@ public class DifferentDisplay extends Presentation {
         initHeader();
 
         setShowType(showType);
+    }
+
+
+    @Override
+    protected void onStop() {
+        if (videoView.isPlaying()) {
+            videoView.stopPlayback();
+        }
+        meesageType = CANCEL;
     }
 
 
