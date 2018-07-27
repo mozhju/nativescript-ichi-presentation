@@ -268,6 +268,9 @@ public class MyPresentation {
 
 
     public void setMediaJsonAndShow(String jsonResp) {
+        showType = 0;
+        presentation.ShowWaiting();
+
         download(jsonResp);
     }
 
