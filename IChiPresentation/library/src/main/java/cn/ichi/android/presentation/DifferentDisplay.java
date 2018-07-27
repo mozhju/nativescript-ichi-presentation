@@ -12,6 +12,7 @@ import android.os.Message;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -48,9 +49,9 @@ public class DifferentDisplay extends Presentation {
     private Context outerContext;
 
     private Handler handler;
-    private static int meesageType;
-    private static MyList<String> mediaFiles = new MyList<String>();
-    private static MyList<String> menuFiles = new MyList<String>();
+    private int meesageType;
+    private MyList<String> mediaFiles = new MyList<String>();
+    private MyList<String> menuFiles = new MyList<String>();
 
     private static final int  CANCEL = 0;
     private static final int  ORDER = 0;
@@ -186,6 +187,9 @@ public class DifferentDisplay extends Presentation {
 
         switch (showType) {
             case 0:
+                if (videoView.isPlaying()) {
+                    videoView.stopPlayback();
+                }
                 viewLayout.setVisibility(View.GONE);
                 orderLayout.setVisibility(View.GONE);
                 break;

@@ -118,6 +118,11 @@
                 android:layout_height="wrap_content"
                 android:text="下载URL" />
             <Button
+                android:id="@+id/btnMedia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="显示广告" />
+            <Button
                 android:id="@+id/btnMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

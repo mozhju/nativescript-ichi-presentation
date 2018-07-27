@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnVideoFile;
     private Button btnURL;
     private Button btnMenu;
+    private Button btnMedia;
     private Button btnClean;
 
 
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             dir = getFilesDir().getPath() + "/";
         }
 
-        myPresentation = new MyPresentation();
 
         order = new Order();
         order.finalFee = 0.0;
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 myPresentation.generate();
+                myPresentation.setShowType(1);
                 myPresentation.showPresentation();
                 myPresentation.setImage(edtImagePath.getText().toString());
             }
@@ -87,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
         btnImageFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
+                myPresentation.setShowType(1);
                 myPresentation.showPresentation();
                 myPresentation.setImage(edtImageFile.getText().toString());
             }
@@ -97,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
         btnVideoPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
+                myPresentation.setShowType(1);
                 myPresentation.showPresentation();
                 myPresentation.setVideo(edtVideoPath.getText().toString());
             }
@@ -107,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
         btnVideoFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
+                myPresentation.setShowType(1);
                 myPresentation.showPresentation();
                 myPresentation.setVideo(edtVideoFile.getText().toString());
             }
@@ -117,19 +124,35 @@ public class MainActivity extends AppCompatActivity {
         btnURL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
+                myPresentation.setShowType(1);
                 myPresentation.showPresentation();
                 myPresentation.downloadAndShow("http://192.168.1.5/Share/ad.txt?time="+new Date().getTime());
             }
         });
 
+        btnMedia = (Button)findViewById(R.id.btnMedia);
+        btnMedia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPresentation = new MyPresentation();
+                myPresentation.generate();
+                myPresentation.setShowType(1);
+                myPresentation.ShowMedia();
+                myPresentation.showPresentation();
+            }
+        });;
+
         btnMenu = (Button)findViewById(R.id.btnMenu);
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
-                myPresentation.showPresentation();
+                myPresentation.setShowType(1);
                 myPresentation.ShowMenu();
+                myPresentation.showPresentation();
             }
         });
 
@@ -137,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
         btnClean.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
-                myPresentation.showPresentation();
                 myPresentation.cleanCacheFile(false);
             }
         });
@@ -147,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
                 myPresentation.setShowType(2);
                 myPresentation.showPresentation();
@@ -201,9 +225,10 @@ public class MainActivity extends AppCompatActivity {
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generate();
-                myPresentation.showPresentation();
                 myPresentation.setShowType(1);
+                myPresentation.showPresentation();
             }
         });
 
@@ -211,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         btnBlack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myPresentation = new MyPresentation();
                 myPresentation.generateBlack();
                 myPresentation.showPresentation();
             }
@@ -224,6 +250,16 @@ public class MainActivity extends AppCompatActivity {
         if (myPresentation != null) {
             myPresentation.generate();
             myPresentation.showPresentation();
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (myPresentation != null) {
+            myPresentation.closePresentation();
         }
     }
 

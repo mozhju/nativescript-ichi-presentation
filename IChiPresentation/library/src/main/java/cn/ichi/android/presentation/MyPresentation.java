@@ -35,9 +35,9 @@ public class MyPresentation {
 
     private static String TAG = "MyPresentation";
 
-    private DifferentDisplay presentation = null;
-    private Activity m_Activity;
-    private int showType = 0;
+    private static DifferentDisplay presentation = null;
+    private static Activity m_Activity;
+    private static int showType = 0;
 
 
     public MyPresentation() {
@@ -46,6 +46,7 @@ public class MyPresentation {
 
     public boolean generateBlack() {
         if (generate()) {
+            showType = -1;
             setShowType(0);
             return true;
         }
@@ -56,7 +57,8 @@ public class MyPresentation {
     public boolean generate() {
 
         if (presentation != null) {
-            presentation.cancel();
+//            presentation.cancel();
+            return true;
         }
 
         Activity activity = Utils.getActivity();
@@ -80,7 +82,7 @@ public class MyPresentation {
 //            displays = mDisplayManager.getDisplays();
 //            //if (displays.length > 1)
 //            {
-//                presentation = new DifferentDisplay(activity, displays[0]);
+//                presentation = new DifferentDisplay(activity, displays[displays.length - 1]);
 //                return true;
 //            }
         }
@@ -193,6 +195,7 @@ public class MyPresentation {
 
     public void downloadAndShow(final String url) {
         if (presentation != null) {
+            showType = 0;
             presentation.ShowWaiting();
 
             new Thread() {
@@ -283,6 +286,9 @@ public class MyPresentation {
 
     public void setShowType(int showType) {
         if (presentation != null) {
+            if (showType == 0) {
+                MyPresentation.showType = -1;
+            }
             presentation.setShowType(showType);
         }
     }
@@ -389,9 +395,15 @@ public class MyPresentation {
 
     public void showPresentation() {
         if (presentation != null) {
+            presentation.cancel();
+
             presentation.ShowWaiting();
 
             switch (showType ) {
+                case -1:
+                    presentation.setShowType(0);
+                    break;
+
                 case 0:
                     presentation.ShowMedia();
                     break;
