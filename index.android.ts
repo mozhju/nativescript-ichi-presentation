@@ -8,6 +8,7 @@ declare module cn {
                     generateBlack(): boolean;
                     generate(): boolean;
                     downloadAndShow(downloadUrl: string): void;
+                    setMediaJsonAndShow(jsonResp: string): void;
                     cleanCacheFile(deleteAll: boolean): void;
                     setShowType(showType: number): void;
                     setImageDisplayTime(imageDisplayTime: number): void;
@@ -68,6 +69,10 @@ export class PresentationClient {
     public downloadAndShow(downloadUrl: string): void {
         return this.client.downloadAndShow(downloadUrl);
     }
+
+    public setMediaJsonAndShow(jsonResp: string): void {
+        return this.client.setMediaJsonAndShow(jsonResp);
+    };
 
     public cleanCacheFile(deleteAll: boolean): void {
         return this.client.cleanCacheFile(deleteAll);

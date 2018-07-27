@@ -75,6 +75,9 @@ if (client.generate())
     // var url = "http://192.168.1.5/media/";
     // client.downloadAndShow(url);
 
+    // var resp = "{\"mediaFiles\":[\"http://192.168.1.5/800.jpg\"],\"menus\":[\"http://192.168.1.5/menu1.jpg\"]}";
+    // client.setMediaJsonAndShow(resp);
+
     // show "menus" by downloadAndShow
     // client.ShowMenu();
 

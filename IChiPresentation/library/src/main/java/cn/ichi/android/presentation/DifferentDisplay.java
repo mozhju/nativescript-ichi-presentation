@@ -53,11 +53,12 @@ public class DifferentDisplay extends Presentation {
     private MyList<String> mediaFiles = new MyList<String>();
     private MyList<String> menuFiles = new MyList<String>();
 
-    private static final int  CANCEL = 0;
-    private static final int  ORDER = 0;
-    private static final int  MEDIA_FILES = 1;
-    private static final int  ADVERTISEMENT = 2;
-    private static final int  MENUS = 3;
+    private static final int  CANCEL = -1;
+    private static final int  INIT_ICHI = 0;
+    private static final int  ORDER = 1;
+    private static final int  MEDIA_FILES = 2;
+    private static final int  ADVERTISEMENT = 3;
+    private static final int  MENUS = 4;
     private static final int  DOWNLOADING = 99;
 
     private List<String> imgExtensions = new ArrayList<String>();
@@ -219,7 +220,7 @@ public class DifferentDisplay extends Presentation {
                 sendHandleMessage(0, meesageType);
             }
         } else {
-            ShowWaiting();
+            ShowInitLogo();
         }
     }
 
@@ -231,8 +232,14 @@ public class DifferentDisplay extends Presentation {
                 sendHandleMessage(0, meesageType);
             }
         } else {
-            ShowWaiting();
+            ShowInitLogo();
         }
+    }
+
+
+    public void ShowInitLogo() {
+        meesageType = INIT_ICHI;
+        sendHandleMessage(0, meesageType);
     }
 
 
@@ -494,6 +501,12 @@ public class DifferentDisplay extends Presentation {
 
                 case DOWNLOADING:
                     imageView.setImageResource(R.drawable.ichi_downloading);
+                    imageView.setVisibility(View.VISIBLE);
+                    videoView.setVisibility(View.GONE);
+                    break;
+
+                case INIT_ICHI:
+                    imageView.setImageResource(R.drawable.ichi_logo);
                     imageView.setVisibility(View.VISIBLE);
                     videoView.setVisibility(View.GONE);
                     break;

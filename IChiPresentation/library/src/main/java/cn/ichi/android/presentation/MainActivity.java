@@ -128,7 +128,10 @@ public class MainActivity extends AppCompatActivity {
                 myPresentation.generate();
                 myPresentation.setShowType(1);
                 myPresentation.showPresentation();
-                myPresentation.downloadAndShow("http://192.168.1.5/Share/ad.txt?time="+new Date().getTime());
+//                myPresentation.downloadAndShow("http://192.168.1.5/Share/ad2.txt?time="+new Date().getTime());
+
+                String json = "{\"mediaFiles\":[\"http://cos.i-chi.cn/xc/wanwang/7b6.mp4\",\"http://cos.i-chi.cn/xc/wanwang/30S_s2.mp4\"],\"menus\":[\"http://cos.i-chi.cn/xc/wanwang/menu1.jpg\",\"http://cos.i-chi.cn/xc/wanwang/menu2.jpg\"]}";
+                myPresentation.setMediaJsonAndShow(json);
             }
         });
 

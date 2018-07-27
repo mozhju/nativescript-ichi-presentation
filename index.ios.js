@@ -15,6 +15,10 @@ var PresentationClient = (function () {
         throw "Not implemented";
     };
 
+    PresentationClient.prototype.setMediaJsonAndShow = function (jsonResp) {
+        throw "Not implemented";
+    };
+
     PresentationClient.prototype.cleanCacheFile = function (deleteAll) {
         throw "Not implemented";
     };

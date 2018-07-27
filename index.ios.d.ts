@@ -28,6 +28,8 @@ export declare class PresentationClient {
 
     public downloadAndShow(downloadUrl: string): void;
 
+    public setMediaJsonAndShow(jsonResp: string): void;
+
     public cleanCacheFile(deleteAll: boolean): void;
 
     public setShowType(showType: number): void;

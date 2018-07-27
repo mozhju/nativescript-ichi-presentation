@@ -33,6 +33,10 @@ export class PresentationClient {
         throw "Not implemented";
     }
 
+    public setMediaJsonAndShow(jsonResp: string): void {
+        throw "Not implemented";
+    };
+
     public cleanCacheFile(deleteAll: boolean): void {
         throw "Not implemented";
     }

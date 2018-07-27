@@ -19,6 +19,10 @@ var PresentationClient = (function () {
         return this.client.downloadAndShow(downloadUrl);
     };
 
+    PresentationClient.prototype.setMediaJsonAndShow = function (jsonResp) {
+        return this.client.setMediaJsonAndShow(jsonResp);
+    };
+
     PresentationClient.prototype.cleanCacheFile = function (deleteAll) {
         return this.client.cleanCacheFile(deleteAll);
     };

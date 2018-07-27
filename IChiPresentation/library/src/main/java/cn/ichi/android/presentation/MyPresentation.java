@@ -193,6 +193,64 @@ public class MyPresentation {
     }
 
 
+    private void download(String jsonResp) {
+
+        Application application = Utils.getApplication();
+        String cacheDir = application.getExternalFilesDir("").getAbsolutePath() + "/Presentation/";
+        File saveDir = new File(cacheDir);
+        saveDir.mkdirs();
+
+        AdInfoResult infoResult = HttpUtils.parseResult(jsonResp);
+        if (infoResult == null) {
+            presentation.ShowInitLogo();
+            return;
+        }
+
+        List<String> files = infoResult.getMediaFiles();
+
+        final boolean hasMedia;
+        if (files != null && files.size() > 0) {
+
+            presentation.clearMediaFiles();
+            hasMedia = true;
+            showType = 0;
+
+            for (String fileUrl : files) {
+                String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                download(application, fileUrl, saveDir, fileName, 3, new AddCallBack() {
+                    @Override
+                    public void Download(String downloadFile) {
+                        presentation.addMediaFile(downloadFile);
+                        presentation.ShowMedia();
+                    }
+                });
+            }
+        } else {
+            showType = 1;
+            hasMedia = false;
+        }
+
+        List<String> menus = infoResult.getMenus();
+        if (menus != null && menus.size() > 0) {
+
+            presentation.clearMenuFiles();
+
+            for (String fileUrl : menus) {
+                String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                download(application, fileUrl, saveDir, fileName, 3, new AddCallBack() {
+                    @Override
+                    public void Download(String downloadFile) {
+                        presentation.addMenuFile(downloadFile);
+                        if (hasMedia == false) {
+                            presentation.ShowMenu();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+
     public void downloadAndShow(final String url) {
         if (presentation != null) {
             showType = 0;
@@ -201,62 +259,16 @@ public class MyPresentation {
             new Thread() {
                 @Override
                 public void run() {
-                    Application application = Utils.getApplication();
-                    String cacheDir = application.getExternalFilesDir("").getAbsolutePath() + "/Presentation/";
-                    File saveDir = new File(cacheDir);
-                    saveDir.mkdirs();
-
-                    AdInfoResult infoResult = HttpUtils.parseResult(HttpUtils.getResponse(url));
-                    if (infoResult == null) {
-                        return;
-                    }
-
-                    List<String> files = infoResult.getMediaFiles();
-
-                    final boolean hasMedia;
-                    if (files != null && files.size() > 0) {
-
-                        presentation.clearMediaFiles();
-                        hasMedia = true;
-                        showType = 0;
-
-                        for (String fileUrl : files) {
-                            String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-                            download(application, fileUrl, saveDir, fileName, 3, new AddCallBack() {
-                                @Override
-                                public void Download(String downloadFile) {
-                                    presentation.addMediaFile(downloadFile);
-                                    presentation.ShowMedia();
-                                }
-                            });
-                        }
-                    } else {
-                        showType = 1;
-                        hasMedia = false;
-                    }
-
-                    List<String> menus = infoResult.getMenus();
-                    if (menus != null && menus.size() > 0) {
-
-                        presentation.clearMenuFiles();
-
-                        for (String fileUrl : menus) {
-                            String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-                            download(application, fileUrl, saveDir, fileName, 3, new AddCallBack() {
-                                @Override
-                                public void Download(String downloadFile) {
-                                    presentation.addMenuFile(downloadFile);
-                                    if (hasMedia == false) {
-                                        presentation.ShowMenu();
-                                    }
-                                }
-                            });
-                        }
-                    }
-
+                    String resp = HttpUtils.getResponse(url);
+                    download(resp);
                 }
             }.start();
         }
+    }
+
+
+    public void setMediaJsonAndShow(String jsonResp) {
+        download(jsonResp);
     }
 
 
