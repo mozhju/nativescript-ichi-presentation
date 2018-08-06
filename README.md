@@ -78,13 +78,13 @@ if (client.generate())
     // var resp = "{\"mediaFiles\":[\"http://192.168.1.5/800.jpg\"],\"menus\":[\"http://192.168.1.5/menu1.jpg\"]}";
     // client.setMediaJsonAndShow(resp);
 
-    // show "menus" by downloadAndShow
+    // show "menus" by downloadAndShow/setMediaJsonAndShow
     // client.ShowMenu();
 
-    // show "mediaFiles" by downloadAndShow
+    // show "mediaFiles" by downloadAndShow/setMediaJsonAndShow
     // client.ShowMedia();
 
-    // clean Files downloaded by downloadAndShow
+    // clean Files downloaded by downloadAndShow/setMediaJsonAndShow
     // var deleteAll = false;
     // client.cleanCacheFile(deleteAll);
 
